@@ -1,0 +1,20 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# Generated images and personal photos
+*.png
+*.jpg
+*.jpeg
+*.webp
+generated-images/
+output/
+dist/
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/

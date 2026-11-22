@@ -1,0 +1,23 @@
+{
+  "scores": {
+    "bones": 7.0,
+    "features": 7.5,
+    "skin": 6.5,
+    "headwear": 5.0,
+    "style": 5.5,
+    "camera": 4.5
+  },
+  "ceiling_scores": {
+    "headwear": 8.0,
+    "style": 8.0,
+    "camera": 8.5
+  },
+  "notes": {
+    "bones": "正面照，三庭大致均衡，左右轻微差异可能来自拍摄角度",
+    "features": "眼神状态自然，眉眼清晰",
+    "skin": "有轻微泛红与油光",
+    "headwear": "粗框眼镜压住眉眼，头顶略扁",
+    "style": "领口偏小，颜色饱和度偏高",
+    "camera": "机位略低，顶光，背景杂乱"
+  }
+}
