@@ -6,11 +6,12 @@
 **Turn the viral "I can see your beauty ceiling" trend into a reusable, explainable, and compliant AI workflow.**
 
 ![license](https://img.shields.io/badge/license-MIT-green.svg)
-![platform](https://img.shields.io/badge/platform-WorkBuddy%20%7C%20CodeBuddy-blue.svg)
+![platform](https://img.shields.io/badge/platform-WorkBuddy%20%7C%20CodeBuddy%20%7C%20Coze%20%7C%20Claude-blue.svg)
+![doubao](https://img.shields.io/badge/豆包-智能体可用-orange.svg)
 ![python](https://img.shields.io/badge/python-3.8%2B-yellow.svg)
 ![status](https://img.shields.io/badge/status-stable-brightgreen.svg)
 
-[中文](#中文介绍) · [English](#english)
+[中文](#中文介绍) · [English](#english) · [多平台支持](#多平台支持--multi-platform)
 
 </div>
 
@@ -20,7 +21,7 @@
 
 ## 中文介绍
 
-一个可安装的 WorkBuddy / CodeBuddy 技能：照片诊断 → 双分数评估 → 优先级改造清单 → AI 改造预览 → 前后对比图 → 短视频脚本。
+一个跨平台技能：照片诊断 → 双分数评估 → 优先级改造清单 → AI 改造预览 → 前后对比图 → 短视频脚本。**原生支持 WorkBuddy / CodeBuddy / 扣子 Coze / Claude 等 SKILL.md 平台，豆包 App 也能通过智能体提示词使用。**
 
 灵感来自抖音博主「微波炉（形象改造）」的全部可见作品拆解，结合公开的人脸美学、色彩诊断与摄影资料整理。详见 [`references/creator-research.md`](references/creator-research.md) 与 [`references/assessment-framework.md`](references/assessment-framework.md)。
 
@@ -88,7 +89,7 @@ python scripts/cleanup.py --keep 1   # 保留最新一张
 
 ## English
 
-An installable WorkBuddy / CodeBuddy skill that turns the viral *"I can see your beauty ceiling"* trend into a **reusable, explainable, and compliant** workflow: photo diagnosis → dual-score assessment → prioritized makeover plan → AI preview → before/after comparison → short-video script.
+A cross-platform skill that turns the viral *"I can see your beauty ceiling"* trend into a **reusable, explainable, and compliant** workflow: photo diagnosis → dual-score assessment → prioritized makeover plan → AI preview → before/after comparison → short-video script. Works natively on WorkBuddy / CodeBuddy / Coze / Claude (SKILL.md), and on Doubao App via a ready-to-paste bot prompt.
 
 Inspired by a full breakdown of the Douyin creator 「微波炉（形象改造）」's visible works, combined with public research on facial aesthetics, color analysis, and photography. See [`references/creator-research.md`](references/creator-research.md) and [`references/assessment-framework.md`](references/assessment-framework.md).
 
@@ -152,6 +153,31 @@ python scripts/cleanup.py --keep 1   # keep the newest
 
 ---
 
+<a name="多平台支持"></a>
+
+## 多平台支持 / Multi-platform
+
+同一套方法论，两种接入方式：SKILL.md 原生平台 + 豆包智能体。
+
+| 平台 | 接入方式 | 说明 |
+| --- | --- | --- |
+| WorkBuddy / CodeBuddy | 安装到 `~/.workbuddy/skills/` | 完整功能，含脚本 |
+| 扣子 Coze / Claude Code / Cursor 等 | 上传 `yanzhi-baogai.zip` 技能包 | 原生 SKILL.md 格式，扣子见 [指南](platforms/coze/README.md) |
+| **豆包 App** | 复制智能体提示词 + 上传知识库 | 见 [豆包指南](platforms/doubao/README.md) |
+
+### 豆包 App 快速上手
+1. 豆包 → 创建 AI 智能体，名称填「颜值上限爆改师」。
+2. 把 [`platforms/doubao/persona-prompt.md`](platforms/doubao/persona-prompt.md) 中 `==== 开始 ====` 到 `==== 结束 ====` 的内容复制到「设定描述」。（评分公式已内置，无需脚本）
+3. 可选：把 [`platforms/doubao/knowledge-base.txt`](platforms/doubao/knowledge-base.txt) 上传到智能体知识库，回答更专业。
+4. 发布后发照片 + 说「帮我看看颜值上限」即可。
+
+> 豆包 App 不能运行本地 Python 脚本，因此评分与脚本能力以提示词形式内置；前后对比图需用图片工具自行拼接。
+
+### Add to Doubao (English)
+Create a Doubao bot, paste the persona prompt from `platforms/doubao/persona-prompt.md` into the persona field, optionally upload `knowledge-base.txt` to its knowledge base, then publish.
+
+---
+
 ## 目录结构 / Structure
 
 ```
@@ -169,6 +195,12 @@ yanzhi-baogai/
 │   └── cleanup.py               # 临时图片清理 / temp image cleanup
 ├── assets/report-template.md    # 诊断报告模板 / report template
 ├── examples/                    # 完整示例 / full examples
+├── platforms/                   # 跨平台适配 / cross-platform adapters
+│   ├── coze/README.md           # 扣子 Coze 技能包导入指南
+│   └── doubao/
+│       ├── README.md            # 豆包智能体搭建指南
+│       ├── persona-prompt.md    # 可复制的豆包人设提示词（自包含公式）
+│       └── knowledge-base.txt   # 豆包知识库上传文本
 ├── LICENSE                      # MIT
 └── .gitignore
 ```

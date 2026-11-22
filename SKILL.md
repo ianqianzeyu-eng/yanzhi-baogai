@@ -10,6 +10,13 @@ agent_created: true
 
 把「颜值上限」这一短视频玩法拆成可执行的标准流程：照片诊断 → 双分数评估 → 优先级改造方案 → AI 改造预览 → 短视频脚本与合规发布。方法来源于对抖音博主「微波炉（形象改造）」全部可见作品的拆解，以及公开的人脸美学、色彩与摄影资料。分数仅作娱乐向参考，不是客观结论，也不代表医美或真实颜值承诺。
 
+## Platform notes（跨平台）
+
+本 SKILL.md 是标准 Agent Skills 格式，可直接用于 WorkBuddy / CodeBuddy / 扣子 Coze / Claude Code 等平台。
+- 扣子 Coze / 其它 SKILL.md 平台：把整个技能目录打包 zip 上传即可，见 `platforms/coze/README.md`。
+- 豆包 App 没有 SKILL.md 机制：用 `platforms/doubao/persona-prompt.md`（自包含人设提示词）与 `platforms/doubao/knowledge-base.txt`（知识库）搭建同款智能体，见 `platforms/doubao/README.md`。
+- 无脚本运行环境时（如豆包）：Step 2 的双分数公式已写在提示词里，可直接口算；Step 0/4 的 Python 脚本可跳过，改为平台自带能力。
+
 ## Trigger phrases
 
 - 「帮我看看颜值上限」「给我打分」「爆改我」「形象改造」
