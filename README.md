@@ -51,14 +51,14 @@ Agent 会自动读取本 Skill，按需加载 references，并在生成图片前
 ### 安装
 
 ```bash
-git clone https://github.com/ianqianzeyu-eng/ianqianzeyu.git yanzhi-baogai
+git clone https://github.com/ianqianzeyu-eng/yanzhi-baogai.git yanzhi-baogai
 cp -r yanzhi-baogai ~/.workbuddy/skills/
 ```
 
 Windows PowerShell：
 
 ```powershell
-git clone https://github.com/ianqianzeyu-eng/ianqianzeyu.git yanzhi-baogai
+git clone https://github.com/ianqianzeyu-eng/yanzhi-baogai.git yanzhi-baogai
 Copy-Item -Recurse yanzhi-baogai "$env:USERPROFILE\.workbuddy\skills\"
 ```
 
@@ -119,14 +119,14 @@ The agent loads the skill and references on demand, and will ask for confirmatio
 ### Installation
 
 ```bash
-git clone https://github.com/ianqianzeyu-eng/ianqianzeyu.git yanzhi-baogai
+git clone https://github.com/ianqianzeyu-eng/yanzhi-baogai.git yanzhi-baogai
 cp -r yanzhi-baogai ~/.workbuddy/skills/
 ```
 
 Windows PowerShell:
 
 ```powershell
-git clone https://github.com/ianqianzeyu-eng/ianqianzeyu.git yanzhi-baogai
+git clone https://github.com/ianqianzeyu-eng/yanzhi-baogai.git yanzhi-baogai
 Copy-Item -Recurse yanzhi-baogai "$env:USERPROFILE\.workbuddy\skills\"
 ```
 
