@@ -19,14 +19,14 @@
 ### WorkBuddy / CodeBuddy（用户级）
 
 ```bash
-git clone https://github.com/ianqianzeyu-eng/yanzhi-baogai.git
+git clone https://github.com/ianqianzeyu-eng/ianqianzeyu.git yanzhi-baogai
 cp -r yanzhi-baogai ~/.workbuddy/skills/
 ```
 
 Windows PowerShell：
 
 ```powershell
-git clone https://github.com/ianqianzeyu-eng/yanzhi-baogai.git
+git clone https://github.com/ianqianzeyu-eng/ianqianzeyu.git yanzhi-baogai
 Copy-Item -Recurse yanzhi-baogai "$env:USERPROFILE\.workbuddy\skills\"
 ```
 
