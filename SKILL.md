@@ -26,12 +26,21 @@ agent_created: true
 5. **身份保护**：AI 预览必须保留可识别的个人特征；禁止大幅改变族裔、年龄、性别表达或复制特定明星面容来冒充本人。可以说「氛围接近某种风格」，不要说「你就是某某」。
 6. **未成年人**：不为未成年人生成成人化、性感化或医美化改造内容。
 7. **成本告知**：调用图像生成工具前，先告知用户会额外消耗积分（约 5-10 积分/张），并等待确认。
+8. **临时数据不留存**：生成的预览图与对比图只写本地 `generated-images/`（已 gitignore），**永不提交 GitHub**；每次运行开头先清理上次残留，下次运行自动清除。详见 `references/compliance.md` 第 6 节。
 
 ## Workflow
 
-### Step 0 — 输入与边界确认
+### Step 0 — 清理上次数据 + 输入与边界确认
 
-收集：照片文件路径或 URL；改造目标（日常/上镜/约会/职场）；限制条件（预算、是否戴眼镜、能否剪发、是否接受妆容）；期望风格（清冷、少年感、韩系、复古、辣妹等）。
+**每次运行首先执行清理**，删除上一次生成的预览图与对比图（人像不跨会话留存）：
+
+```bash
+python scripts/cleanup.py
+```
+
+只删除 `generated-images/` 下的图片文件，不碰其它内容；如用户想保留上一轮图片，可用 `--keep 1`。所有生成图片只在本地，永不 git commit。
+
+然后收集：照片文件路径或 URL；改造目标（日常/上镜/约会/职场）；限制条件（预算、是否戴眼镜、能否剪发、是否接受妆容）；期望风格（清冷、少年感、韩系、复古、辣妹等）。
 
 - 没有照片：先索要照片，不凭空打分。
 - 照片不是本人且无授权：停止人脸生成，只输出通用改造建议。
@@ -74,18 +83,28 @@ python scripts/score.py --input examples/sample-input.json
 - **一周内（低成本）**：发型修剪、眉形修饰、腮红与提亮、穿搭换色、配饰（耳饰/帽子/围巾）。参考原片「贴上双眼皮贴」「修饰脸型」「再换上对应的穿搭和配饰」。
 - **长期（高投入）**：护肤防晒、体态与肩颈、健身、牙齿、医美咨询（仅提供信息，不构成医疗建议）。
 
-### Step 4 — AI 改造预览（可选，需确认）
+### Step 4 — AI 改造预览 + 前后对比图（可选，需确认）
 
-仅在用户确认后调用图像生成工具；先说明积分消耗。
+仅在用户确认后调用图像生成工具；先说明积分消耗。**生成预览图后自动生成对比图**，两步连做：
 
 - 工具优先级：图像生成工具（图生图，`image1` 传原图，`input_fidelity` 调高以保身份）→ 需要抠图/去杂物/人像增强时用 `buddy-image-processing` 预处理或后处理。
 - 提示词从 `references/prompt-library.md` 选取对应模板，填入 Step 1 的诊断结论；始终包含「保留人物身份特征、自然不假面、真实皮肤质感」。
 - 生成图角落加显式标识文字，例如「AI 生成·颜值上限预览」（不超过 16 字）。
 - 不把生成图描述为真实照片或承诺用户现实中会变成这样。
+- **紧接着生成前后对比图**（默认输出 `generated-images/yanzhi-before-after.png`，含双分数、箭头与 AI 声明）：
+
+```bash
+python scripts/make_comparison.py \
+  --before <原图路径> --after <预览图路径> \
+  --output generated-images/yanzhi-before-after.png \
+  --current <当前呈现分> --ceiling <颜值上限分>
+```
+
+- 需要 Pillow（`pip install pillow`）；对比图与原图/预览图一起展示给用户，作为视频封面或图文配图。
 
 ### Step 5 — 交付物
 
-按 `assets/report-template.md` 输出报告，包含：双分数、六维诊断表、优先级清单、AI 预览图路径（如有）、合规声明。
+按 `assets/report-template.md` 输出报告，包含：双分数、六维诊断表、优先级清单、AI 预览图与对比图路径（如有）、合规声明、临时数据清理提示。
 
 短视频脚本按 `references/script-templates.md` 生成，必须包含：
 
@@ -106,6 +125,8 @@ python scripts/score.py --input examples/sample-input.json
 - `references/script-templates.md`：短视频分镜、口播、标题与话题模板，写脚本前读取。
 - `references/compliance.md`：AI 生成内容标识办法与平台规则要点，发布前读取。
 - `scripts/score.py`：确定性评分与杠杆排序脚本。
+- `scripts/make_comparison.py`：前后对比图生成脚本（需 Pillow）。
+- `scripts/cleanup.py`：每次运行开头清理上次人像图片，保护隐私。
 - `assets/report-template.md`：诊断报告模板。
 - `examples/sample-input.json`、`examples/sample-output.md`：完整示例。
 
@@ -113,4 +134,4 @@ python scripts/score.py --input examples/sample-input.json
 
 用户：「这是我用手机拍的证件照，帮我看看颜值上限并写个爆改视频脚本。」
 
-执行：确认照片为本人 → 读取 `assessment-framework.md` → 六维诊断 → 运行 `score.py` → 读取 `creator-research.md` 与 `script-templates.md` 写脚本 → 询问是否生成 AI 预览 → 告知积分消耗 → 生成带标识的预览 → 用 `report-template.md` 汇总 → 输出合规声明。
+执行：运行 `cleanup.py` 清除上次图片 → 确认照片为本人 → 读取 `assessment-framework.md` → 六维诊断 → 运行 `score.py` → 读取 `creator-research.md` 与 `script-templates.md` 写脚本 → 询问是否生成 AI 预览 → 告知积分消耗 → 生成带标识的预览 → 运行 `make_comparison.py` 生成前后对比图 → 用 `report-template.md` 汇总 → 输出合规声明（含「下次运行自动清除本次图片」提示）。

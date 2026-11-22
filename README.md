@@ -12,6 +12,8 @@
 - 双分数模型：当前呈现分 vs 颜值上限分，自动算出改造空间与收益最高的三项杠杆。
 - 三档改造清单：0 成本立刻做 / 一周内低成本 / 长期高投入。
 - AI 改造预览：图生图提示词库，保留身份特征，强制显式 AI 标识。
+- **前后对比图**：预览图生成后自动拼接原图 + 预览图，带双分数、箭头与 AI 声明，可直接当封面。
+- **临时数据自动清理**：每次运行开头自动清除上次的人像图片；图片只存本地、永不提交 GitHub，保护隐私。
 - 短视频脚本：3 秒钩子、口播句库、分镜、CTA、话题标签，以及发布前合规清单。
 
 ## 安装
@@ -50,6 +52,27 @@ python scripts/score.py --input examples/sample-input.json
 
 输入各维度 0-10 分，输出 current / ceiling / gap / top_levers 的 JSON。
 
+### 手动生成前后对比图
+
+```bash
+python scripts/make_comparison.py \
+  --before 原图.jpg --after 预览图.png \
+  --output generated-images/yanzhi-before-after.png \
+  --current 7.4 --ceiling 8.0
+```
+
+需先安装 Pillow：`pip install pillow`。输出带双分数与 AI 声明。
+
+### 手动清理临时图片
+
+```bash
+python scripts/cleanup.py            # 删除 generated-images/ 下所有图片
+python scripts/cleanup.py --dry-run  # 只看不删
+python scripts/cleanup.py --keep 1   # 保留最新一张
+```
+
+Skill 每次运行开头会自动执行一次清理，无需手动调用。
+
 ## 目录结构
 
 ```
@@ -62,7 +85,9 @@ yanzhi-baogai/
 │   ├── script-templates.md      # 短视频分镜与口播模板
 │   └── compliance.md            # AI 标识与伦理清单
 ├── scripts/
-│   └── score.py                 # 确定性评分脚本
+│   ├── score.py                 # 确定性评分脚本
+│   ├── make_comparison.py       # 前后对比图生成（需 Pillow）
+│   └── cleanup.py               # 临时人像图片清理
 ├── assets/
 │   └── report-template.md       # 诊断报告模板
 ├── examples/
